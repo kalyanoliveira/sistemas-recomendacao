@@ -6,6 +6,7 @@ Itens são avaliados como "relevante" a partir de uma análise que busca por sim
 
 #### 1. Importação de Bibliotecas
 
+
 ```python
 import numpy as np
 ```
@@ -13,12 +14,13 @@ import numpy as np
 #### 2. Histórico de Avaliações
 
 Usaremos dados de um histórico de avaliações para os processos subsequentes.
- 
+
 Para cada usuário, um array contém as avaliações daquele usuário para cada item de um catálogo:
 
 `usuario = [item0, item1, item2, item3, ...]`
- 
+
 Caso um usuário não tenha avaliado um item, deixamos a avaliação como `0`.
+
 
 ```python
 NUM_USUARIOS = 6
@@ -34,44 +36,45 @@ usuario5 = [0, 0, 0, 0, 0, 0]
 
 Vamos transformar esses dados em uma matrix (um array 2D).
 
+
 ```python
 avaliacoes = [usuario0, usuario1, usuario2, usuario3, usuario4, usuario5]
 
 matrix_avaliacoes = np.array(avaliacoes)
 ```
 
+
 ```python
 print(matrix_avaliacoes)
 ```
 
-```
-[[5 3 0 4 4 0]
- [1 0 0 3 0 0]
- [0 0 0 1 0 0]
- [4 0 0 5 0 2]
- [0 0 5 4 0 1]
- [0 0 0 0 0 0]]
+    [[5 3 0 4 4 0]
+     [1 0 0 3 0 0]
+     [0 0 0 1 0 0]
+     [4 0 0 5 0 2]
+     [0 0 5 4 0 1]
+     [0 0 0 0 0 0]]
 
-```
 
 Iremos transpor nossa matrix de avaliações, de modo que linhas serão itens, e colunas serão usuários.
+
 
 ```python
 matrix_itens = np.transpose(matrix_avaliacoes)
 ```
 
+
 ```python
 print(matrix_itens)
 ```
 
-```
-[[5 1 0 4 0 0]
- [3 0 0 0 0 0]
- [0 0 0 0 5 0]
- [4 3 1 5 4 0]
- [4 0 0 0 0 0]
- [0 0 0 2 1 0]]
-```
+    [[5 1 0 4 0 0]
+     [3 0 0 0 0 0]
+     [0 0 0 0 5 0]
+     [4 3 1 5 4 0]
+     [4 0 0 0 0 0]
+     [0 0 0 2 1 0]]
+
 
 Isso é necessário. Agora, cada linha contém um vetor de todas avaliações dadas a um item.
 
@@ -80,6 +83,7 @@ Podemos comparar esse vetores para ver o quão similar cada item é.
 #### 3. Calculando a similaridade entre dois itens.
 
 Vamos definir uma função que pega dois itens e retorna a similaridade entre eles.
+
 
 ```python
 def calcular_similaridade(vetor1: np.ndarray, vetor2: np.ndarray) -> float:
@@ -107,6 +111,7 @@ def calcular_similaridade(vetor1: np.ndarray, vetor2: np.ndarray) -> float:
 
 Com esses materiais, já conseguimos calcular a similaridade entre itens.
 
+
 ```python
 for i, item in enumerate(matrix_itens):
     for j, outro_item in enumerate(matrix_itens):
@@ -114,48 +119,48 @@ for i, item in enumerate(matrix_itens):
         print(f"Similaridade entre Itens {i} e {j}: {sim:.3g}")
 ```
 
-```
-Similaridade entre Itens 0 e 0: 1
-Similaridade entre Itens 0 e 1: 0.772
-Similaridade entre Itens 0 e 2: 0
-Similaridade entre Itens 0 e 3: 0.811
-Similaridade entre Itens 0 e 4: 0.772
-Similaridade entre Itens 0 e 5: 0.552
-Similaridade entre Itens 1 e 0: 0.772
-Similaridade entre Itens 1 e 1: 1
-Similaridade entre Itens 1 e 2: 0
-Similaridade entre Itens 1 e 3: 0.489
-Similaridade entre Itens 1 e 4: 1
-Similaridade entre Itens 1 e 5: 0
-Similaridade entre Itens 2 e 0: 0
-Similaridade entre Itens 2 e 1: 0
-Similaridade entre Itens 2 e 2: 1
-Similaridade entre Itens 2 e 3: 0.489
-Similaridade entre Itens 2 e 4: 0
-Similaridade entre Itens 2 e 5: 0.447
-Similaridade entre Itens 3 e 0: 0.811
-Similaridade entre Itens 3 e 1: 0.489
-Similaridade entre Itens 3 e 2: 0.489
-Similaridade entre Itens 3 e 3: 1
-Similaridade entre Itens 3 e 4: 0.489
-Similaridade entre Itens 3 e 5: 0.765
-Similaridade entre Itens 4 e 0: 0.772
-Similaridade entre Itens 4 e 1: 1
-Similaridade entre Itens 4 e 2: 0
-Similaridade entre Itens 4 e 3: 0.489
-Similaridade entre Itens 4 e 4: 1
-Similaridade entre Itens 4 e 5: 0
-Similaridade entre Itens 5 e 0: 0.552
-Similaridade entre Itens 5 e 1: 0
-Similaridade entre Itens 5 e 2: 0.447
-Similaridade entre Itens 5 e 3: 0.765
-Similaridade entre Itens 5 e 4: 0
-Similaridade entre Itens 5 e 5: 1
-```
+    Similaridade entre Itens 0 e 0: 1
+    Similaridade entre Itens 0 e 1: 0.772
+    Similaridade entre Itens 0 e 2: 0
+    Similaridade entre Itens 0 e 3: 0.811
+    Similaridade entre Itens 0 e 4: 0.772
+    Similaridade entre Itens 0 e 5: 0.552
+    Similaridade entre Itens 1 e 0: 0.772
+    Similaridade entre Itens 1 e 1: 1
+    Similaridade entre Itens 1 e 2: 0
+    Similaridade entre Itens 1 e 3: 0.489
+    Similaridade entre Itens 1 e 4: 1
+    Similaridade entre Itens 1 e 5: 0
+    Similaridade entre Itens 2 e 0: 0
+    Similaridade entre Itens 2 e 1: 0
+    Similaridade entre Itens 2 e 2: 1
+    Similaridade entre Itens 2 e 3: 0.489
+    Similaridade entre Itens 2 e 4: 0
+    Similaridade entre Itens 2 e 5: 0.447
+    Similaridade entre Itens 3 e 0: 0.811
+    Similaridade entre Itens 3 e 1: 0.489
+    Similaridade entre Itens 3 e 2: 0.489
+    Similaridade entre Itens 3 e 3: 1
+    Similaridade entre Itens 3 e 4: 0.489
+    Similaridade entre Itens 3 e 5: 0.765
+    Similaridade entre Itens 4 e 0: 0.772
+    Similaridade entre Itens 4 e 1: 1
+    Similaridade entre Itens 4 e 2: 0
+    Similaridade entre Itens 4 e 3: 0.489
+    Similaridade entre Itens 4 e 4: 1
+    Similaridade entre Itens 4 e 5: 0
+    Similaridade entre Itens 5 e 0: 0.552
+    Similaridade entre Itens 5 e 1: 0
+    Similaridade entre Itens 5 e 2: 0.447
+    Similaridade entre Itens 5 e 3: 0.765
+    Similaridade entre Itens 5 e 4: 0
+    Similaridade entre Itens 5 e 5: 1
+
 
 #### 4. Matrix de Similaridades
 
 Podemos imaginar uma outra matrix Itens X Itens, denominada **"Matrix de Similaridades"**, para guardar esses dados de similaridades.
+
 
 ```python
 matrix_similaridades = np.empty(NUM_ITENS, dtype=np.ndarray)
@@ -171,43 +176,45 @@ for i in range(NUM_ITENS):
 matrix_similaridades = np.stack(matrix_similaridades)
 ```
 
+
 ```python
 print(matrix_similaridades)
 ```
 
-```
-[[1.         0.77151675 0.         0.81059964 0.77151675 0.55205245]
- [0.77151675 1.         0.         0.48867778 1.         0.        ]
- [0.         0.         1.         0.48867778 0.         0.4472136 ]
- [0.81059964 0.48867778 0.48867778 1.         0.48867778 0.76490171]
- [0.77151675 1.         0.         0.48867778 1.         0.        ]
- [0.55205245 0.         0.4472136  0.76490171 0.         1.        ]]
-```
+    [[1.         0.77151675 0.         0.81059964 0.77151675 0.55205245]
+     [0.77151675 1.         0.         0.48867778 1.         0.        ]
+     [0.         0.         1.         0.48867778 0.         0.4472136 ]
+     [0.81059964 0.48867778 0.48867778 1.         0.48867778 0.76490171]
+     [0.77151675 1.         0.         0.48867778 1.         0.        ]
+     [0.55205245 0.         0.4472136  0.76490171 0.         1.        ]]
+
 
 Outra maneira mais rápida de calcular essa matrix é a partir dessa linha de código:
+
 
 ```python
 matrix_similaridades = np.dot(matrix_itens, matrix_itens.T) / (np.linalg.norm(matrix_itens, axis=1)[:, None] * np.linalg.norm(matrix_itens.T, axis=0))
 ```
 
+
 ```python
 print(matrix_similaridades)
 ```
 
-```
-[[1.         0.77151675 0.         0.81059964 0.77151675 0.55205245]
- [0.77151675 1.         0.         0.48867778 1.         0.        ]
- [0.         0.         1.         0.48867778 0.         0.4472136 ]
- [0.81059964 0.48867778 0.48867778 1.         0.48867778 0.76490171]
- [0.77151675 1.         0.         0.48867778 1.         0.        ]
- [0.55205245 0.         0.4472136  0.76490171 0.         1.        ]]
-```
+    [[1.         0.77151675 0.         0.81059964 0.77151675 0.55205245]
+     [0.77151675 1.         0.         0.48867778 1.         0.        ]
+     [0.         0.         1.         0.48867778 0.         0.4472136 ]
+     [0.81059964 0.48867778 0.48867778 1.         0.48867778 0.76490171]
+     [0.77151675 1.         0.         0.48867778 1.         0.        ]
+     [0.55205245 0.         0.4472136  0.76490171 0.         1.        ]]
+
 
 Agora podemos utilizar essa matrix de similaridades para avaliar a utilidade de um item para um usuário.
 
 #### 5. Avaliação de Utilidade
 
 Vamos definir uma função denominada "Avaliar" que pega um usuário e um item, e retorna a Utilidade daquele item para aquele usuário.
+
 
 ```python
 def avaliar(usuario: int, item: int) -> float:
@@ -270,6 +277,7 @@ def avaliar(usuario: int, item: int) -> float:
 
 Agora podemos avaliar a utilidade de cada item para cada usuário:
 
+
 ```python
 for u in range(NUM_USUARIOS):
     for i in range(NUM_ITENS):
@@ -277,48 +285,48 @@ for u in range(NUM_USUARIOS):
         print(f"Avaliando item {i} para usuário {u}: {avaliar(u, i):.3g}", end="")
 ```
 
-```
-Avaliando item 0 para usuário 0: 4
-Avaliando item 1 para usuário 0: 3.87
-Avaliando item 2 para usuário 0: 4
-Avaliando item 3 para usuário 0: 4.62
-Avaliando item 4 para usuário 0: 3.87
-Avaliando item 5 para usuário 0: 4.42
-Avaliando item 0 para usuário 1: 1.54
-Avaliando item 1 para usuário 1: 1.78
-Avaliando item 2 para usuário 1: 3
-Avaliando item 3 para usuário 1: 0.624
-Avaliando item 4 para usuário 1: 1.78
-Avaliando item 5 para usuário 1: 2.16
-Avaliando item 0 para usuário 2: 0.512
-Avaliando item 1 para usuário 2: 0.388
-Avaliando item 2 para usuário 2: 1
-Avaliando item 3 para usuário 2: 0
-Avaliando item 4 para usuário 2: 0.388
-Avaliando item 5 para usuário 2: 0.631
-Avaliando item 0 para usuário 3: 2.56
-Avaliando item 1 para usuário 3: 4.39
-Avaliando item 2 para usuário 3: 3.57
-Avaliando item 3 para usuário 3: 3.03
-Avaliando item 4 para usuário 3: 4.39
-Avaliando item 5 para usuário 3: 4.58
-Avaliando item 0 para usuário 4: 2.05
-Avaliando item 1 para usuário 4: 1.55
-Avaliando item 2 para usuário 4: 2.57
-Avaliando item 3 para usuário 4: 0.61
-Avaliando item 4 para usuário 4: 1.55
-Avaliando item 5 para usuário 4: 4.37
-Avaliando item 0 para usuário 5: 0
-Avaliando item 1 para usuário 5: 0
-Avaliando item 2 para usuário 5: 0
-Avaliando item 3 para usuário 5: 0
-Avaliando item 4 para usuário 5: 0
-Avaliando item 5 para usuário 5: 0
-```
+    
+    Avaliando item 0 para usuário 0: 4
+    Avaliando item 1 para usuário 0: 3.87
+    Avaliando item 2 para usuário 0: 4
+    Avaliando item 3 para usuário 0: 4.62
+    Avaliando item 4 para usuário 0: 3.87
+    Avaliando item 5 para usuário 0: 4.42
+    Avaliando item 0 para usuário 1: 1.54
+    Avaliando item 1 para usuário 1: 1.78
+    Avaliando item 2 para usuário 1: 3
+    Avaliando item 3 para usuário 1: 0.624
+    Avaliando item 4 para usuário 1: 1.78
+    Avaliando item 5 para usuário 1: 2.16
+    Avaliando item 0 para usuário 2: 0.512
+    Avaliando item 1 para usuário 2: 0.388
+    Avaliando item 2 para usuário 2: 1
+    Avaliando item 3 para usuário 2: 0
+    Avaliando item 4 para usuário 2: 0.388
+    Avaliando item 5 para usuário 2: 0.631
+    Avaliando item 0 para usuário 3: 2.56
+    Avaliando item 1 para usuário 3: 4.39
+    Avaliando item 2 para usuário 3: 3.57
+    Avaliando item 3 para usuário 3: 3.03
+    Avaliando item 4 para usuário 3: 4.39
+    Avaliando item 5 para usuário 3: 4.58
+    Avaliando item 0 para usuário 4: 2.05
+    Avaliando item 1 para usuário 4: 1.55
+    Avaliando item 2 para usuário 4: 2.57
+    Avaliando item 3 para usuário 4: 0.61
+    Avaliando item 4 para usuário 4: 1.55
+    Avaliando item 5 para usuário 4: 4.37
+    Avaliando item 0 para usuário 5: 0
+    Avaliando item 1 para usuário 5: 0
+    Avaliando item 2 para usuário 5: 0
+    Avaliando item 3 para usuário 5: 0
+    Avaliando item 4 para usuário 5: 0
+    Avaliando item 5 para usuário 5: 0
 
 #### 6. Gerando Recomendações
 
 Vamos criar um ranqueamento dessas avaliações, e recomendar os itens mais bem ranqueados e desconhecidos pelos usuários. Um item desconhecido é um item que o usuário ainda não avaliou.
+
 
 ```python
 recomendacoes = []
@@ -347,13 +355,12 @@ for recomendacao in recomendacoes:
     print("")
 ```
 
-```
-Recomendações rankeadas
+    Recomendações rankeadas
+    
+    Usuário 0: Item 2 Item 5 
+    Usuário 1: Item 1 Item 4 
+    Usuário 2: Item 1 Item 4 
+    Usuário 3: Item 2 Item 1 
+    Usuário 4: Item 1 Item 4 
+    Usuário 5: Item 0 Item 1 
 
-Usuário 0: Item 2 Item 5 
-Usuário 1: Item 1 Item 4 
-Usuário 2: Item 1 Item 4 
-Usuário 3: Item 2 Item 1 
-Usuário 4: Item 1 Item 4 
-Usuário 5: Item 0 Item 1 
-```

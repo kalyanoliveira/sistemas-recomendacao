@@ -6,7 +6,8 @@ Itens são avaliados como "relevante" a partir de uma análise que busca por sim
 
 #### 1. Importação de Bibliotecas
 
-```
+
+```python
 import numpy as np
 ```
 
@@ -19,6 +20,7 @@ Para cada usuário, um array contém as avaliações daquele usuário para cada 
 `usuario = [item0, item1, item2, item3, ...]`
 
 Caso um usuário não tenha avaliado um item, deixamos a avaliação como `0`.
+
 
 ```python
 NUM_USUARIOS = 6
@@ -34,31 +36,34 @@ usuario5 = [0, 0, 0, 0, 0, 0]
 
 Vamos transformar esses dados em uma matrix (um array 2D).
 
+
 ```python
 avaliacoes = [usuario0, usuario1, usuario2, usuario3, usuario4, usuario5]
 
 matrix_avaliacoes = np.array(avaliacoes)
 ```
 
+
 ```python
 print(matrix_avaliacoes)
 ```
 
-```
-[[5 3 0 4 4 0]
- [1 0 0 3 0 0]
- [0 0 0 1 0 0]
- [4 0 0 5 0 2]
- [0 0 5 4 0 1]
- [0 0 0 0 0 0]]
-```
+    [[5 3 0 4 4 0]
+     [1 0 0 3 0 0]
+     [0 0 0 1 0 0]
+     [4 0 0 5 0 2]
+     [0 0 5 4 0 1]
+     [0 0 0 0 0 0]]
+
 
 Cada linha dessa matrix contém um vetor de todas avaliações de um usuário.
+
 Podemos comparar esse vetores para ver o quão similar dois usuários são.
 
 #### 3. Calculando a similaridade entre dois usuários.
 
 Vamos definir uma função que pega dois usuários e retorna a similaridade entre eles.
+
 
 ```python
 def calcular_similaridade(vetor1: np.ndarray, vetor2: np.ndarray) -> float:
@@ -86,6 +91,7 @@ def calcular_similaridade(vetor1: np.ndarray, vetor2: np.ndarray) -> float:
 
 Com esses materiais, já conseguimos calcular a similaridade entre usuarios.
 
+
 ```python
 for i, usuario in enumerate(matrix_avaliacoes):
     for j, outro_usuario in enumerate(matrix_avaliacoes):
@@ -93,48 +99,52 @@ for i, usuario in enumerate(matrix_avaliacoes):
         print(f"Similaridade entre Usuários {i} e {j}: {sim:.3g}")
 ```
 
-```
-Similaridade entre Usuários 0 e 0: 1
-Similaridade entre Usuários 0 e 1: 0.662
-Similaridade entre Usuários 0 e 2: 0.492
-Similaridade entre Usuários 0 e 3: 0.734
-Similaridade entre Usuários 0 e 4: 0.304
-Similaridade entre Usuários 0 e 5: nan
-Similaridade entre Usuários 1 e 0: 0.662
-Similaridade entre Usuários 1 e 1: 1
-Similaridade entre Usuários 1 e 2: 0.949
-Similaridade entre Usuários 1 e 3: 0.896
-Similaridade entre Usuários 1 e 4: 0.586
-Similaridade entre Usuários 1 e 5: nan
-Similaridade entre Usuários 2 e 0: 0.492
-Similaridade entre Usuários 2 e 1: 0.949
-Similaridade entre Usuários 2 e 2: 1
-Similaridade entre Usuários 2 e 3: 0.745
-Similaridade entre Usuários 2 e 4: 0.617
-Similaridade entre Usuários 2 e 5: nan
-Similaridade entre Usuários 3 e 0: 0.734
-Similaridade entre Usuários 3 e 1: 0.896
-Similaridade entre Usuários 3 e 2: 0.745
-Similaridade entre Usuários 3 e 3: 1
-Similaridade entre Usuários 3 e 4: 0.506
-Similaridade entre Usuários 3 e 5: nan
-Similaridade entre Usuários 4 e 0: 0.304
-Similaridade entre Usuários 4 e 1: 0.586
-Similaridade entre Usuários 4 e 2: 0.617
-Similaridade entre Usuários 4 e 3: 0.506
-Similaridade entre Usuários 4 e 4: 1
-Similaridade entre Usuários 4 e 5: nan
-Similaridade entre Usuários 5 e 0: nan
-Similaridade entre Usuários 5 e 1: nan
-Similaridade entre Usuários 5 e 2: nan
-Similaridade entre Usuários 5 e 3: nan
-Similaridade entre Usuários 5 e 4: nan
-Similaridade entre Usuários 5 e 5: nan
-```
+    Similaridade entre Usuários 0 e 0: 1
+    Similaridade entre Usuários 0 e 1: 0.662
+    Similaridade entre Usuários 0 e 2: 0.492
+    Similaridade entre Usuários 0 e 3: 0.734
+    Similaridade entre Usuários 0 e 4: 0.304
+    Similaridade entre Usuários 0 e 5: nan
+    Similaridade entre Usuários 1 e 0: 0.662
+    Similaridade entre Usuários 1 e 1: 1
+    Similaridade entre Usuários 1 e 2: 0.949
+    Similaridade entre Usuários 1 e 3: 0.896
+    Similaridade entre Usuários 1 e 4: 0.586
+    Similaridade entre Usuários 1 e 5: nan
+    Similaridade entre Usuários 2 e 0: 0.492
+    Similaridade entre Usuários 2 e 1: 0.949
+    Similaridade entre Usuários 2 e 2: 1
+    Similaridade entre Usuários 2 e 3: 0.745
+    Similaridade entre Usuários 2 e 4: 0.617
+    Similaridade entre Usuários 2 e 5: nan
+    Similaridade entre Usuários 3 e 0: 0.734
+    Similaridade entre Usuários 3 e 1: 0.896
+    Similaridade entre Usuários 3 e 2: 0.745
+    Similaridade entre Usuários 3 e 3: 1
+    Similaridade entre Usuários 3 e 4: 0.506
+    Similaridade entre Usuários 3 e 5: nan
+    Similaridade entre Usuários 4 e 0: 0.304
+    Similaridade entre Usuários 4 e 1: 0.586
+    Similaridade entre Usuários 4 e 2: 0.617
+    Similaridade entre Usuários 4 e 3: 0.506
+    Similaridade entre Usuários 4 e 4: 1
+    Similaridade entre Usuários 4 e 5: nan
+    Similaridade entre Usuários 5 e 0: nan
+    Similaridade entre Usuários 5 e 1: nan
+    Similaridade entre Usuários 5 e 2: nan
+    Similaridade entre Usuários 5 e 3: nan
+    Similaridade entre Usuários 5 e 4: nan
+    Similaridade entre Usuários 5 e 5: nan
+
+
+    /tmp/ipykernel_1493/2408305389.py:19: RuntimeWarning: invalid value encountered in true_divide
+      similaridade = dot / (magnitude1 * magnitude2)
+
 
 #### 4. Matrix de Similaridades
 
 Podemos imaginar uma outra matrix Usuários X Usuários, denominada **"Matrix de Similaridades"**, para guardar esses dados de similaridades.
+
 
 ```python
 matrix_similaridades = np.empty(NUM_USUARIOS, dtype=np.ndarray)
@@ -150,43 +160,53 @@ for i in range(NUM_USUARIOS):
 matrix_similaridades = np.stack(matrix_similaridades)
 ```
 
+    /tmp/ipykernel_1493/2408305389.py:19: RuntimeWarning: invalid value encountered in true_divide
+      similaridade = dot / (magnitude1 * magnitude2)
+
+
+
 ```python
 print(matrix_similaridades)
 ```
 
-```
-[[1.         0.6617241  0.49236596 0.73397584 0.30389487        nan]
- [0.6617241  1.         0.9486833  0.89566859 0.58554004        nan]
- [0.49236596 0.9486833  1.         0.74535599 0.6172134         nan]
- [0.73397584 0.89566859 0.74535599 1.         0.50604808        nan]
- [0.30389487 0.58554004 0.6172134  0.50604808 1.                nan]
- [       nan        nan        nan        nan        nan        nan]]
-```
+    [[1.         0.6617241  0.49236596 0.73397584 0.30389487        nan]
+     [0.6617241  1.         0.9486833  0.89566859 0.58554004        nan]
+     [0.49236596 0.9486833  1.         0.74535599 0.6172134         nan]
+     [0.73397584 0.89566859 0.74535599 1.         0.50604808        nan]
+     [0.30389487 0.58554004 0.6172134  0.50604808 1.                nan]
+     [       nan        nan        nan        nan        nan        nan]]
+
 
 Outra maneira mais rápida de calcular essa matrix é a partir dessa linha de código:
+
 
 ```python
 matrix_similaridades = np.dot(matrix_avaliacoes, matrix_avaliacoes.T) / (np.linalg.norm(matrix_avaliacoes, axis=1)[:, None] * np.linalg.norm(matrix_avaliacoes.T, axis=0))
 ```
 
+    /tmp/ipykernel_1493/786230641.py:1: RuntimeWarning: invalid value encountered in true_divide
+      matrix_similaridades = np.dot(matrix_avaliacoes, matrix_avaliacoes.T) / (np.linalg.norm(matrix_avaliacoes, axis=1)[:, None] * np.linalg.norm(matrix_avaliacoes.T, axis=0))
+
+
+
 ```python
 print(matrix_similaridades)
 ```
 
-```
-[[1.         0.6617241  0.49236596 0.73397584 0.30389487        nan]
- [0.6617241  1.         0.9486833  0.89566859 0.58554004        nan]
- [0.49236596 0.9486833  1.         0.74535599 0.6172134         nan]
- [0.73397584 0.89566859 0.74535599 1.         0.50604808        nan]
- [0.30389487 0.58554004 0.6172134  0.50604808 1.                nan]
- [       nan        nan        nan        nan        nan        nan]]
-```
+    [[1.         0.6617241  0.49236596 0.73397584 0.30389487        nan]
+     [0.6617241  1.         0.9486833  0.89566859 0.58554004        nan]
+     [0.49236596 0.9486833  1.         0.74535599 0.6172134         nan]
+     [0.73397584 0.89566859 0.74535599 1.         0.50604808        nan]
+     [0.30389487 0.58554004 0.6172134  0.50604808 1.                nan]
+     [       nan        nan        nan        nan        nan        nan]]
+
 
 Agora podemos utilizar essa matrix de similaridades para avaliar a utilidade de um item para um usuário.
 
 #### 5. Avaliação de Utilidade
 
 Vamos definir uma função denominada "Avaliar" que pega um usuário e um item, e retorna a Utilidade daquele item para aquele usuário.
+
 
 ```python
 def avaliar(usuario: int, item: int) -> float:
@@ -247,6 +267,7 @@ def avaliar(usuario: int, item: int) -> float:
 
 Agora podemos avaliar a utilidade de cada item para cada usuário:
 
+
 ```python
 for u in range(NUM_USUARIOS):
     for i in range(NUM_ITENS):
@@ -254,48 +275,48 @@ for u in range(NUM_USUARIOS):
         print(f"Avaliando item {i} para usuário {u}: {avaliar(u, i):.3g}", end="")
 ```
 
-```
-Avaliando item 0 para usuário 0: 4.58
-Avaliando item 1 para usuário 0: 1.81
-Avaliando item 2 para usuário 0: 0
-Avaliando item 3 para usuário 0: 4.42
-Avaliando item 4 para usuário 0: 2.41
-Avaliando item 5 para usuário 0: 1.2
-Avaliando item 0 para usuário 1: 2.42
-Avaliando item 1 para usuário 1: 1.23
-Avaliando item 2 para usuário 1: 0
-Avaliando item 3 para usuário 1: 2.03
-Avaliando item 4 para usuário 1: 1.64
-Avaliando item 5 para usuário 1: 0.971
-Avaliando item 0 para usuário 2: 2.32
-Avaliando item 1 para usuário 2: 0
-Avaliando item 2 para usuário 2: 1.97
-Avaliando item 3 para usuário 2: 1.97
-Avaliando item 4 para usuário 2: 0
-Avaliando item 5 para usuário 2: 0.88
-Avaliando item 0 para usuário 3: 2.58
-Avaliando item 1 para usuário 3: 1.35
-Avaliando item 2 para usuário 3: 0
-Avaliando item 3 para usuário 3: 4.06
-Avaliando item 4 para usuário 3: 1.8
-Avaliando item 5 para usuário 3: 1.15
-Avaliando item 0 para usuário 4: 0.487
-Avaliando item 1 para usuário 4: 0
-Avaliando item 2 para usuário 4: 3.15
-Avaliando item 3 para usuário 4: 2.86
-Avaliando item 4 para usuário 4: 0
-Avaliando item 5 para usuário 4: 0.631
-Avaliando item 0 para usuário 5: nan
-Avaliando item 1 para usuário 5: nan
-Avaliando item 2 para usuário 5: nan
-Avaliando item 3 para usuário 5: nan
-Avaliando item 4 para usuário 5: nan
-Avaliando item 5 para usuário 5: nan
-```
+    
+    Avaliando item 0 para usuário 0: 4.58
+    Avaliando item 1 para usuário 0: 1.81
+    Avaliando item 2 para usuário 0: 0
+    Avaliando item 3 para usuário 0: 4.42
+    Avaliando item 4 para usuário 0: 2.41
+    Avaliando item 5 para usuário 0: 1.2
+    Avaliando item 0 para usuário 1: 2.42
+    Avaliando item 1 para usuário 1: 1.23
+    Avaliando item 2 para usuário 1: 0
+    Avaliando item 3 para usuário 1: 2.03
+    Avaliando item 4 para usuário 1: 1.64
+    Avaliando item 5 para usuário 1: 0.971
+    Avaliando item 0 para usuário 2: 2.32
+    Avaliando item 1 para usuário 2: 0
+    Avaliando item 2 para usuário 2: 1.97
+    Avaliando item 3 para usuário 2: 1.97
+    Avaliando item 4 para usuário 2: 0
+    Avaliando item 5 para usuário 2: 0.88
+    Avaliando item 0 para usuário 3: 2.58
+    Avaliando item 1 para usuário 3: 1.35
+    Avaliando item 2 para usuário 3: 0
+    Avaliando item 3 para usuário 3: 4.06
+    Avaliando item 4 para usuário 3: 1.8
+    Avaliando item 5 para usuário 3: 1.15
+    Avaliando item 0 para usuário 4: 0.487
+    Avaliando item 1 para usuário 4: 0
+    Avaliando item 2 para usuário 4: 3.15
+    Avaliando item 3 para usuário 4: 2.86
+    Avaliando item 4 para usuário 4: 0
+    Avaliando item 5 para usuário 4: 0.631
+    Avaliando item 0 para usuário 5: nan
+    Avaliando item 1 para usuário 5: nan
+    Avaliando item 2 para usuário 5: nan
+    Avaliando item 3 para usuário 5: nan
+    Avaliando item 4 para usuário 5: nan
+    Avaliando item 5 para usuário 5: nan
 
 #### 6. Gerando Recomendações
 
 Vamos criar um ranqueamento dessas avaliações, e recomendar os itens mais bem ranqueados e desconhecidos pelos usuários. Um item desconhecido é um item que o usuário ainda não avaliou.
+
 
 ```python
 recomendacoes = []
@@ -324,13 +345,12 @@ for recomendacao in recomendacoes:
     print("")
 ```
 
-```
-Recomendações rankeadas
+    Recomendações rankeadas
+    
+    Usuário 0: Item 2 Item 5 
+    Usuário 1: Item 2 Item 5 
+    Usuário 2: Item 1 Item 4 
+    Usuário 3: Item 2 Item 1 
+    Usuário 4: Item 1 Item 4 
+    Usuário 5: Item 0 Item 1 
 
-Usuário 0: Item 2 Item 5 
-Usuário 1: Item 2 Item 5 
-Usuário 2: Item 1 Item 4 
-Usuário 3: Item 2 Item 1 
-Usuário 4: Item 1 Item 4 
-Usuário 5: Item 0 Item 1 
-```
