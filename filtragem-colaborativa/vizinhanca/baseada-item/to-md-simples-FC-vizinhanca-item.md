@@ -1,8 +1,10 @@
-### Implementação Básica de Filtragem Colaborativa baseada em Itens
+### Implementação Básica de Filtragem Colaborativa por Vizinhança baseada em Itens
 
 Filtragem colaborativa é um processo oriundo de sistemas de recomendação, onde o objetivo é filtrar uma lista de itens para sugerir a um usuário o item mais "relevante" dessa lista.
 
 Itens são avaliados como "relevante" a partir de uma análise que busca por similaridades em um histórico de avaliações.
+
+Abaixo, uma implementação básica de filtragem colaborativa por vizinhança baseada em itens foi conduzida.
 
 #### 1. Importação de Bibliotecas
 
@@ -34,20 +36,21 @@ usuario4 = [0, 0, 5, 4, 0, 1]
 usuario5 = [0, 0, 0, 0, 0, 0]
 ```
 
-Vamos transformar esses dados em uma matrix (um array 2D).
+Vamos transformar esses dados em uma matriz (um array 2D).
 
 
 ```python
 avaliacoes = [usuario0, usuario1, usuario2, usuario3, usuario4, usuario5]
 
-matrix_avaliacoes = np.array(avaliacoes)
+matriz_avaliacoes = np.array(avaliacoes)
 ```
 
 
 ```python
-print(matrix_avaliacoes)
+print(matriz_avaliacoes)
 ```
 
+    OUTPUT
     [[5 3 0 4 4 0]
      [1 0 0 3 0 0]
      [0 0 0 1 0 0]
@@ -56,18 +59,19 @@ print(matrix_avaliacoes)
      [0 0 0 0 0 0]]
 
 
-Iremos transpor nossa matrix de avaliações, de modo que linhas serão itens, e colunas serão usuários.
+Iremos transpor nossa matriz de avaliações, de modo que linhas serão itens, e colunas serão usuários.
 
 
 ```python
-matrix_itens = np.transpose(matrix_avaliacoes)
+matriz_itens = np.transpose(matriz_avaliacoes)
 ```
 
 
 ```python
-print(matrix_itens)
+print(matriz_itens)
 ```
 
+    OUTPUT
     [[5 1 0 4 0 0]
      [3 0 0 0 0 0]
      [0 0 0 0 5 0]
@@ -88,7 +92,7 @@ Vamos definir uma função que pega dois itens e retorna a similaridade entre el
 ```python
 def calcular_similaridade(vetor1: np.ndarray, vetor2: np.ndarray) -> float:
     """
-    Calcula a similaridade entre dois vetores a partir do coseno do ângulo entre
+    Calcula a similaridade entre dois vetores a partir do cosseno do ângulo entre
     eles.
 
     Args:
@@ -113,12 +117,13 @@ Com esses materiais, já conseguimos calcular a similaridade entre itens.
 
 
 ```python
-for i, item in enumerate(matrix_itens):
-    for j, outro_item in enumerate(matrix_itens):
+for i, item in enumerate(matriz_itens):
+    for j, outro_item in enumerate(matriz_itens):
         sim = calcular_similaridade(item, outro_item)
         print(f"Similaridade entre Itens {i} e {j}: {sim:.3g}")
 ```
 
+    OUTPUT
     Similaridade entre Itens 0 e 0: 1
     Similaridade entre Itens 0 e 1: 0.772
     Similaridade entre Itens 0 e 2: 0
@@ -157,30 +162,31 @@ for i, item in enumerate(matrix_itens):
     Similaridade entre Itens 5 e 5: 1
 
 
-#### 4. Matrix de Similaridades
+#### 4. Matriz de Similaridades
 
-Podemos imaginar uma outra matrix Itens X Itens, denominada **"Matrix de Similaridades"**, para guardar esses dados de similaridades.
+Podemos imaginar uma outra matriz Itens X Itens, denominada **"Matriz de Similaridades"**, para guardar esses dados de similaridades.
 
 
 ```python
-matrix_similaridades = np.empty(NUM_ITENS, dtype=np.ndarray)
+matriz_similaridades = np.empty(NUM_ITENS, dtype=np.ndarray)
 
 for i in range(NUM_ITENS):
     similar = []
 
     for j in range(NUM_ITENS):
-        similar.append(calcular_similaridade(matrix_itens[i], matrix_itens[j]))
+        similar.append(calcular_similaridade(matriz_itens[i], matriz_itens[j]))
 
-    matrix_similaridades[i] = np.array(similar)
+    matriz_similaridades[i] = np.array(similar)
 
-matrix_similaridades = np.stack(matrix_similaridades)
+matriz_similaridades = np.stack(matriz_similaridades)
 ```
 
 
 ```python
-print(matrix_similaridades)
+print(matriz_similaridades)
 ```
 
+    OUTPUT
     [[1.         0.77151675 0.         0.81059964 0.77151675 0.55205245]
      [0.77151675 1.         0.         0.48867778 1.         0.        ]
      [0.         0.         1.         0.48867778 0.         0.4472136 ]
@@ -189,27 +195,7 @@ print(matrix_similaridades)
      [0.55205245 0.         0.4472136  0.76490171 0.         1.        ]]
 
 
-Outra maneira mais rápida de calcular essa matrix é a partir dessa linha de código:
-
-
-```python
-matrix_similaridades = np.dot(matrix_itens, matrix_itens.T) / (np.linalg.norm(matrix_itens, axis=1)[:, None] * np.linalg.norm(matrix_itens.T, axis=0))
-```
-
-
-```python
-print(matrix_similaridades)
-```
-
-    [[1.         0.77151675 0.         0.81059964 0.77151675 0.55205245]
-     [0.77151675 1.         0.         0.48867778 1.         0.        ]
-     [0.         0.         1.         0.48867778 0.         0.4472136 ]
-     [0.81059964 0.48867778 0.48867778 1.         0.48867778 0.76490171]
-     [0.77151675 1.         0.         0.48867778 1.         0.        ]
-     [0.55205245 0.         0.4472136  0.76490171 0.         1.        ]]
-
-
-Agora podemos utilizar essa matrix de similaridades para avaliar a utilidade de um item para um usuário.
+Agora podemos utilizar essa matriz de similaridades para avaliar a utilidade de um item para um usuário.
 
 #### 5. Avaliação de Utilidade
 
@@ -236,30 +222,30 @@ def avaliar(usuario: int, item: int) -> float:
 
     # Primeiro, pegamos o grau de similaridade de cada item com o item 
     # definido no argumento.
-    similaridades = matrix_similaridades[item]
+    similaridades = matriz_similaridades[item]
 
     # Agora precisamos obter o id dos k itens mais similares ao item 
     # definido no argumento que foram avaliados pelo usuário definido 
     # no argumento.
 
-    # Rankear todos itens base no grau de similaridade, e obter o id dos 
-    # itens rankeados.
-    itens_rankeados = list(np.argsort(similaridades)[::-1][1:])
+    # Ranquear todos itens base no grau de similaridade, e obter o id dos 
+    # itens ranqueados.
+    itens_ranqueados = list(np.argsort(similaridades)[::-1][1:])
 
     # Para cada item, se o usuário definido no argumento não o avaliou,
-    # remova-o da lista de itens rankeados.
-    for index, item_rankeado in enumerate(itens_rankeados):
-        if matrix_avaliacoes[usuario, item_rankeado] == 0:
-            itens_rankeados.pop(index)
+    # remova-o da lista de itens ranqueados.
+    for index, item_ranqueado in enumerate(itens_ranqueados):
+        if matriz_avaliacoes[usuario, item_ranqueado] == 0:
+            itens_ranqueados.pop(index)
 
     # Obter os k itens mais similares que foram avaliados pelo usuário definido 
     # no argumento.
-    itens_mais_similares = itens_rankeados[:k]
+    itens_mais_similares = itens_ranqueados[:k]
 
     # Obter as avaliações desses itens do usuário e o grau de similaridade 
     # de cada um.
-    avaliacoes_similares_do_usuario = matrix_avaliacoes[usuario, itens_mais_similares]
-    grau_similaridade = matrix_similaridades[item, itens_mais_similares]
+    avaliacoes_similares_do_usuario = matriz_avaliacoes[usuario, itens_mais_similares]
+    grau_similaridade = matriz_similaridades[item, itens_mais_similares]
 
     # Fazer uma média ponderada das avaliações, onde os pesos são os graus 
     # de similaridade.
@@ -335,7 +321,7 @@ for u in range(NUM_USUARIOS):
     avaliacoes = []
     for i in range(NUM_ITENS):
         avaliacao = avaliar(u, i)
-        if matrix_avaliacoes[u, i] != 0:
+        if matriz_avaliacoes[u, i] != 0:
             continue
         else:
             avaliacoes.append((i, avaliacao))
@@ -355,6 +341,7 @@ for recomendacao in recomendacoes:
     print("")
 ```
 
+    OUTPUT
     Recomendações rankeadas
     
     Usuário 0: Item 2 Item 5 

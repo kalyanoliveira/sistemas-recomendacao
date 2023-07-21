@@ -1,8 +1,10 @@
-### Implementação Básica de Filtragem Colaborativa baseada em Usuários
+### Implementação Básica de Filtragem Colaborativa por Vizinhança baseada em Usuários
 
 Filtragem colaborativa é um processo oriundo de sistemas de recomendação, onde o objetivo é filtrar uma lista de itens para sugerir a um usuário o item mais "relevante" dessa lista.
 
 Itens são avaliados como "relevante" a partir de uma análise que busca por similaridades em um histórico de avaliações.
+
+Abaixo, uma implementação básica de filtragem colaborativa por vizinhança baseada em usuários foi conduzida.
 
 #### 1. Importação de Bibliotecas
 
@@ -34,20 +36,21 @@ usuario4 = [0, 0, 5, 4, 0, 1]
 usuario5 = [0, 0, 0, 0, 0, 0]
 ```
 
-Vamos transformar esses dados em uma matrix (um array 2D).
+Vamos transformar esses dados em uma matriz (um array 2D).
 
 
 ```python
 avaliacoes = [usuario0, usuario1, usuario2, usuario3, usuario4, usuario5]
 
-matrix_avaliacoes = np.array(avaliacoes)
+matriz_avaliacoes = np.array(avaliacoes)
 ```
 
 
 ```python
-print(matrix_avaliacoes)
+print(matriz_avaliacoes)
 ```
 
+    OUTPUT
     [[5 3 0 4 4 0]
      [1 0 0 3 0 0]
      [0 0 0 1 0 0]
@@ -56,7 +59,7 @@ print(matrix_avaliacoes)
      [0 0 0 0 0 0]]
 
 
-Cada linha dessa matrix contém um vetor de todas avaliações de um usuário.
+Cada linha dessa matriz contém um vetor de todas avaliações de um usuário.
 
 Podemos comparar esse vetores para ver o quão similar dois usuários são.
 
@@ -68,7 +71,7 @@ Vamos definir uma função que pega dois usuários e retorna a similaridade entr
 ```python
 def calcular_similaridade(vetor1: np.ndarray, vetor2: np.ndarray) -> float:
     """
-    Calcula a similaridade entre dois vetores a partir do coseno do ângulo entre
+    Calcula a similaridade entre dois vetores a partir do cosseno do ângulo entre
     eles.
 
     Args:
@@ -93,12 +96,13 @@ Com esses materiais, já conseguimos calcular a similaridade entre usuarios.
 
 
 ```python
-for i, usuario in enumerate(matrix_avaliacoes):
-    for j, outro_usuario in enumerate(matrix_avaliacoes):
+for i, usuario in enumerate(matriz_avaliacoes):
+    for j, outro_usuario in enumerate(matriz_avaliacoes):
         sim = calcular_similaridade(usuario, outro_usuario)
         print(f"Similaridade entre Usuários {i} e {j}: {sim:.3g}")
 ```
 
+    OUTPUT
     Similaridade entre Usuários 0 e 0: 1
     Similaridade entre Usuários 0 e 1: 0.662
     Similaridade entre Usuários 0 e 2: 0.492
@@ -137,38 +141,40 @@ for i, usuario in enumerate(matrix_avaliacoes):
     Similaridade entre Usuários 5 e 5: nan
 
 
-    /tmp/ipykernel_1493/2408305389.py:19: RuntimeWarning: invalid value encountered in true_divide
+    /tmp/ipykernel_10971/1700240142.py:19: RuntimeWarning: invalid value encountered in true_divide
       similaridade = dot / (magnitude1 * magnitude2)
 
 
-#### 4. Matrix de Similaridades
+#### 4. Matriz de Similaridades
 
-Podemos imaginar uma outra matrix Usuários X Usuários, denominada **"Matrix de Similaridades"**, para guardar esses dados de similaridades.
+Podemos imaginar uma outra matriz Usuários X Usuários, denominada **"Matriz de Similaridades"**, para guardar esses dados de similaridades.
 
 
 ```python
-matrix_similaridades = np.empty(NUM_USUARIOS, dtype=np.ndarray)
+matriz_similaridades = np.empty(NUM_USUARIOS, dtype=np.ndarray)
 
 for i in range(NUM_USUARIOS):
     similar = []
 
     for j in range(NUM_USUARIOS):
-        similar.append(calcular_similaridade(matrix_avaliacoes[i], matrix_avaliacoes[j]))
+        similar.append(calcular_similaridade(matriz_avaliacoes[i], matriz_avaliacoes[j]))
 
-    matrix_similaridades[i] = np.array(similar)
+    matriz_similaridades[i] = np.array(similar)
 
-matrix_similaridades = np.stack(matrix_similaridades)
+matriz_similaridades = np.stack(matriz_similaridades)
 ```
 
-    /tmp/ipykernel_1493/2408305389.py:19: RuntimeWarning: invalid value encountered in true_divide
+    OUTPUT
+    /tmp/ipykernel_10971/1700240142.py:19: RuntimeWarning: invalid value encountered in true_divide
       similaridade = dot / (magnitude1 * magnitude2)
 
 
 
 ```python
-print(matrix_similaridades)
+print(matriz_similaridades)
 ```
 
+    OUTPUT
     [[1.         0.6617241  0.49236596 0.73397584 0.30389487        nan]
      [0.6617241  1.         0.9486833  0.89566859 0.58554004        nan]
      [0.49236596 0.9486833  1.         0.74535599 0.6172134         nan]
@@ -177,31 +183,7 @@ print(matrix_similaridades)
      [       nan        nan        nan        nan        nan        nan]]
 
 
-Outra maneira mais rápida de calcular essa matrix é a partir dessa linha de código:
-
-
-```python
-matrix_similaridades = np.dot(matrix_avaliacoes, matrix_avaliacoes.T) / (np.linalg.norm(matrix_avaliacoes, axis=1)[:, None] * np.linalg.norm(matrix_avaliacoes.T, axis=0))
-```
-
-    /tmp/ipykernel_1493/786230641.py:1: RuntimeWarning: invalid value encountered in true_divide
-      matrix_similaridades = np.dot(matrix_avaliacoes, matrix_avaliacoes.T) / (np.linalg.norm(matrix_avaliacoes, axis=1)[:, None] * np.linalg.norm(matrix_avaliacoes.T, axis=0))
-
-
-
-```python
-print(matrix_similaridades)
-```
-
-    [[1.         0.6617241  0.49236596 0.73397584 0.30389487        nan]
-     [0.6617241  1.         0.9486833  0.89566859 0.58554004        nan]
-     [0.49236596 0.9486833  1.         0.74535599 0.6172134         nan]
-     [0.73397584 0.89566859 0.74535599 1.         0.50604808        nan]
-     [0.30389487 0.58554004 0.6172134  0.50604808 1.                nan]
-     [       nan        nan        nan        nan        nan        nan]]
-
-
-Agora podemos utilizar essa matrix de similaridades para avaliar a utilidade de um item para um usuário.
+Agora podemos utilizar essa matriz de similaridades para avaliar a utilidade de um item para um usuário.
 
 #### 5. Avaliação de Utilidade
 
@@ -228,28 +210,28 @@ def avaliar(usuario: int, item: int) -> float:
 
     # Primeiro, pegamos o grau de similaridade de cada usuário com o usuário 
     # definido no argumento.
-    similaridades = matrix_similaridades[usuario]
+    similaridades = matriz_similaridades[usuario]
 
     # Agora precisamos obter o id dos k usuários mais similares ao usuário 
     # definido no argumento que avaliaram o item definido no argumento.
 
-    # Rankear todos usuários com base no grau de similaridade, e obter o id dos 
-    # usuários rankeados.
-    usuarios_rankeados = list(np.argsort(similaridades)[::-1][1:])
+    # Ranquear todos usuários com base no grau de similaridade, e obter o id dos 
+    # usuários ranqueados.
+    usuarios_ranqueados= list(np.argsort(similaridades)[::-1][1:])
 
     # Para cada usuário, se ele não avaliou o item definido no argumento,
     # remova-o da lista de usuários similares.
-    for index, usuario_rankeado in enumerate(usuarios_rankeados):
-        if matrix_avaliacoes[usuario_rankeado, item] == 0:
-            usuarios_rankeados.pop(index)
+    for index, usuario_ranqueado in enumerate(usuarios_ranqueados):
+        if matriz_avaliacoes[usuario_ranqueado, item] == 0:
+            usuarios_ranqueados.pop(index)
 
     # Obter os k usuários mais similares que avaliaram o item definido 
     # no argumento.
-    usuarios_mais_similares = usuarios_rankeados[:k]
+    usuarios_mais_similares = usuarios_ranqueados[:k]
 
     # Obter as avaliações desses usuários e o grau de similaridade de cada um.
-    avaliacoes_similares_do_item = matrix_avaliacoes[usuarios_mais_similares, item]
-    grau_similaridade = matrix_similaridades[usuario, usuarios_mais_similares]
+    avaliacoes_similares_do_item = matriz_avaliacoes[usuarios_mais_similares, item]
+    grau_similaridade = matriz_similaridades[usuario, usuarios_mais_similares]
 
     # Fazer uma média ponderada das avaliações, onde os pesos são os graus 
     # de similaridade.
@@ -325,7 +307,7 @@ for u in range(NUM_USUARIOS):
     avaliacoes = []
     for i in range(NUM_ITENS):
         avaliacao = avaliar(u, i)
-        if matrix_avaliacoes[u, i] != 0:
+        if matriz_avaliacoes[u, i] != 0:
             continue
         else:
             avaliacoes.append((i, avaliacao))
@@ -345,6 +327,7 @@ for recomendacao in recomendacoes:
     print("")
 ```
 
+    OUTPUT
     Recomendações rankeadas
     
     Usuário 0: Item 2 Item 5 

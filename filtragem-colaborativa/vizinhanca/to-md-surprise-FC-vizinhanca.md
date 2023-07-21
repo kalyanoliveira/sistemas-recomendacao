@@ -4,7 +4,7 @@ Filtragem colaborativa é um processo oriundo de sistemas de recomendação, ond
 
 Itens são avaliados como "relevante" a partir de uma análise que busca por similaridades em um histórico de avaliações.
 
-Aqui, implementamos Filtragem Colaborativa a partir da biblioteca `Surprise`, do Python.
+Aqui, implementamos filtragem colaborativa por vizinhança a partir da biblioteca `Surprise`, do Python.
 
 #### 1. Importação de Bibliotecas
 
@@ -39,6 +39,7 @@ avaliacoes = pd.DataFrame({
 print(avaliacoes)
 ```
 
+    OUTPUT
         usuario  item  avaliacao
     0         0     0          5
     1         0     1          3
@@ -82,6 +83,7 @@ dados = Dataset.load_from_df(avaliacoes, leitor)
 print(dados)
 ```
 
+    OUTPUT
     <surprise.dataset.DatasetAutoFolds object at 0x7f1ab2c75f70>
 
 
@@ -106,7 +108,7 @@ Em filtragem colaborativa, esse algoritmo é chamado de `KNN`: *k Nearest-Neighb
 
 A intuição por trás desse algoritmo é a mesma que da implementação básica discutida anteriormente: estamos procurando por similaridades entre usuários/itens, e dispondo dessas informações para calcular utilidades.
 
-Podemos especificar o método de calculo da similaridade entre usuários e se o algoritmo será baseado em itens ou usuários a partir de um dicionário. Aqui, estamos usando filtragem colaborativa baseada em usuários, e comparando usuários com de similaridade de coseno:
+Podemos especificar o método de calculo da similaridade entre usuários e se o algoritmo será baseado em itens ou usuários a partir de um dicionário. Aqui, estamos usando filtragem colaborativa baseada em usuários, e comparando usuários com de similaridade de cosseno:
 
 
 ```python
@@ -130,6 +132,7 @@ Para treinar nosso algoritmo em nosso conjunto de dados para treinamento (que, n
 algoritmo.fit(conjunto_dados_treinamento)
 ```
 
+    OUTPUT
     Computing the cosine similarity matrix...
     Done computing similarity matrix.
 
@@ -153,17 +156,18 @@ algoritmo.predict(uid=1, iid=2)
 
 
 
+    OUTPUT
     Prediction(uid=1, iid=2, r_ui=None, est=5, details={'actual_k': 1, 'was_impossible': False})
 
 
 
-O resultado aparece em `est`; podemos ver que nosso algoritmo de filtragem colaborativa baseada em usuários e com similaridade de coseno prevê uma utilidade de 5/5 do item 2 para o usuário 1.
+O resultado aparece em `est`; podemos ver que nosso algoritmo de filtragem colaborativa baseada em usuários e com similaridade de cosseno prevê uma utilidade de 5/5 do item 2 para o usuário 1.
 
-Vamos repetir isso para cada usuário - estaremos testando *manualmente* o nosso modelo para cada usuário. Irei re-introduzir a matrix de avaliações, apenas para incluir uma avaliação real ao lado de cada estimativa do nosso modelo.
+Vamos repetir isso para cada usuário - estaremos testando *manualmente* o nosso modelo para cada usuário. Irei re-introduzir a matriz de avaliações, apenas para incluir uma avaliação real ao lado de cada estimativa do nosso modelo.
 
 
 ```python
-matrix_avaliacoes = np.array([[5, 3, 0, 4, 4, 0],[1, 0, 0, 3, 0, 0],[0, 0, 0, 1, 0, 0],[4, 0, 0, 5, 0, 2],[0, 0, 5, 4, 0, 1]])
+matriz_avaliacoes = np.array([[5, 3, 0, 4, 4, 0],[1, 0, 0, 3, 0, 0],[0, 0, 0, 1, 0, 0],[4, 0, 0, 5, 0, 2],[0, 0, 5, 4, 0, 1]])
 ```
 
 Abaixo, cada linha contém uma estimativa da avaliação/utilidade de um `item` para um `user`, nomeadamente `"est"`. 
@@ -174,9 +178,10 @@ Abaixo, cada linha contém uma estimativa da avaliação/utilidade de um `item` 
 ```python
 for u in range(5):
     for i in range(6):
-        print(algoritmo.predict(u, i, r_ui=matrix_avaliacoes[u, i]))
+        print(algoritmo.predict(u, i, r_ui=matriz_avaliacoes[u, i]))
 ```
 
+    OUTPUT
     user: 0          item: 0          r_ui = 5.00   est = 3.46   {'actual_k': 3, 'was_impossible': False}
     user: 0          item: 1          r_ui = 3.00   est = 3.00   {'actual_k': 1, 'was_impossible': False}
     user: 0          item: 2          r_ui = 0.00   est = 5.00   {'actual_k': 1, 'was_impossible': False}
@@ -222,6 +227,7 @@ Uma dessas maneiras é chamada de Validação Cruzada (*Cross Validation*, do In
 cross_validate(algoritmo, dados, measures=["RMSE", "MAE"], cv=2, verbose=True)
 ```
 
+    OUTPUT
     Computing the cosine similarity matrix...
     Done computing similarity matrix.
     Computing the cosine similarity matrix...
@@ -270,6 +276,7 @@ for avaliacao in anti_conjunto_dados_teste:
     print(f"Usuário: {avaliacao[0]}, Item: {avaliacao[1]}, Avaliacao: {avaliacao[2]}")
 ```
 
+    OUTPUT
     Usuário: 0, Item: 5, Avaliacao: 3.230769230769231
     Usuário: 0, Item: 2, Avaliacao: 3.230769230769231
     Usuário: 1, Item: 1, Avaliacao: 3.230769230769231
@@ -305,6 +312,7 @@ E claro, podemos também mostrar todas as estimativas de avaliações desconheci
 for i in estimativas: print(i, type(i))
 ```
 
+    OUTPUT
     user: 0          item: 5          r_ui = 3.23   est = 1.00   {'actual_k': 1, 'was_impossible': False} <class 'surprise.prediction_algorithms.predictions.Prediction'>
     user: 0          item: 2          r_ui = 3.23   est = 2.57   {'was_impossible': True, 'reason': 'User and/or item is unknown.'} <class 'surprise.prediction_algorithms.predictions.Prediction'>
     user: 1          item: 1          r_ui = 3.23   est = 2.57   {'was_impossible': True, 'reason': 'Not enough neighbors.'} <class 'surprise.prediction_algorithms.predictions.Prediction'>
@@ -372,6 +380,7 @@ for u in range(5):
         print(f"Item {recomendacao_usuario[0]}")
 ```
 
+    OUTPUT
     Recomendações para o Usuário 0:
     Item 2
     Item 5
@@ -413,6 +422,7 @@ for i in est: print(i)
 print(modelo)
 ```
 
+    OUTPUT
     user: 0          item: 5          r_ui = 3.23   est = 1.00   {'actual_k': 1, 'was_impossible': False}
     user: 0          item: 2          r_ui = 3.23   est = 2.57   {'was_impossible': True, 'reason': 'User and/or item is unknown.'}
     user: 1          item: 1          r_ui = 3.23   est = 2.57   {'was_impossible': True, 'reason': 'Not enough neighbors.'}
@@ -513,6 +523,7 @@ for u in range(5):
 
 ```
 
+    OUTPUT
     Computing the cosine similarity matrix...
     Done computing similarity matrix.
     Recomendações para o Usuário 0:
