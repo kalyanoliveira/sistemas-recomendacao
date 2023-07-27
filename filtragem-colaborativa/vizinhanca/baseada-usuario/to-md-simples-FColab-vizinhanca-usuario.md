@@ -141,7 +141,7 @@ for i, usuario in enumerate(matriz_avaliacoes):
     Similaridade entre Usuários 5 e 5: nan
 
 
-    /tmp/ipykernel_10971/1700240142.py:19: RuntimeWarning: invalid value encountered in true_divide
+    /tmp/ipykernel_7677/1700240142.py:19: RuntimeWarning: invalid value encountered in true_divide
       similaridade = dot / (magnitude1 * magnitude2)
 
 
@@ -165,7 +165,7 @@ matriz_similaridades = np.stack(matriz_similaridades)
 ```
 
     OUTPUT
-    /tmp/ipykernel_10971/1700240142.py:19: RuntimeWarning: invalid value encountered in true_divide
+    /tmp/ipykernel_7677/1700240142.py:19: RuntimeWarning: invalid value encountered in true_divide
       similaridade = dot / (magnitude1 * magnitude2)
 
 
@@ -316,7 +316,7 @@ for u in range(NUM_USUARIOS):
 
     recomendacoes.append((u, avaliacoes_ranqueadas))
 
-print("Recomendações rankeadas\n")
+print("Recomendações ranqueadas\n")
 for recomendacao in recomendacoes:
     print(f"Usuário {recomendacao[0]}: ", end='')
 
@@ -328,7 +328,7 @@ for recomendacao in recomendacoes:
 ```
 
     OUTPUT
-    Recomendações rankeadas
+    Recomendações ranqueadas
     
     Usuário 0: Item 2 Item 5 
     Usuário 1: Item 2 Item 5 

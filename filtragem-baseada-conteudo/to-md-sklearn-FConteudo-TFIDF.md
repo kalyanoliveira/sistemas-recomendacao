@@ -1,4 +1,4 @@
-## Implementação Básica de Filtragem baseada em Conteúdo por Semântica Endógena TF-IDF
+### Implementação Básica de Filtragem baseada em Conteúdo por Semântica Endógena TF-IDF
 
 Filtragem baseada em conteúdo é um processo pertencente a sistemas de recomendação, onde o objetivo geral é filtrar uma lista de itens a fim de sugerir aqueles que estimamos ser interessantes para usuários.
 
@@ -6,7 +6,7 @@ Dado informações de características de cada item de um catálogo, um item é 
 
 Abaixo, uma implementação de filtragem baseada em conteúdo por semântica endógena TF-IDF de artigos do Wikipedia foi desenvolvida.
 
-### 1. Importação de Bibliotecas
+#### 1. Importação de Bibliotecas
 
 
 ```python
@@ -15,7 +15,7 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 ```
 
-### 2. Dados de Itens e Usuários
+#### 2. Dados de Itens e Usuários
 
 Primeiramente, iremos pegar o primeiro parágrafo de alguns artigos do Wikipedia relacionados a *"Machine Learning"*, e criaremos uma `pandas DataFrame` disso.
 
@@ -74,7 +74,7 @@ avaliacoes = pd.DataFrame({
 })
 ```
 
-### 3. Representações de Itens
+#### 3. Representações de Itens
 
 Iremos agora criar representações de cada artigo utilizando uma técnica chamada TF-IDF.
 
@@ -349,7 +349,7 @@ for doc in range(len(conteudos["item"])):
     
 
 
-### 4. Gerando Perfis de Usuários
+#### 4. Gerando Perfis de Usuários
 
 Vamos agora utilizar as representações criadas e os dados de interações de usuários para gerar um perfil para cada usuário do nosso sistema.
 
@@ -413,7 +413,7 @@ perfis = np.stack(np.array(gerar_perfis(matriz_tfidf, avaliacoes)))
 
 Com esses componentes, já conseguimos comparar perfis de usuários e representações de itens.
 
-### 5. Comparando Perfis e Representações
+#### 5. Comparando Perfis e Representações
 
 Cada perfil consiste de um vetor com dimensionalidade igual aos vetores de representações de itens. Podemos utilizar a função de similaridade de vetores introduzida anteriormente:
 
@@ -457,7 +457,7 @@ print(similaridade)
     0.7255362555579096
 
 
-### 6. Componente de Filtragem, Gerando Recomendações.
+#### 6. Componente de Filtragem, Gerando Recomendações.
 
 Vamos criar um componente de filtragem que pega o perfil de um usuário e retorna uma recomendação dispondo desta função de cálculo de similaridade e, claro, das nossas representações geradas.
 

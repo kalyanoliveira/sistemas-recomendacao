@@ -50,6 +50,7 @@ matriz_avaliacoes = np.array(avaliacoes)
 print(matriz_avaliacoes)
 ```
 
+    OUTPUT
     [[5 3 0 4 4 0]
      [1 0 0 3 0 0]
      [0 0 0 1 0 0]
@@ -67,7 +68,8 @@ melhor_item = np.argsort(avaliacoes_medias)[::-1][0]
 print(f"Recomendação de item (aquele mais bem avaliado): Item {melhor_item}")
 ```
 
+    OUTPUT
     Recomendação de item (aquele mais bem avaliado): Item 3
 
 
-De fato: o Item 3 não somente é aquele mais bem avaliado, como também é o item mais avaliado.
+De fato: o item 3 não somente é aquele mais bem avaliado, como também é o item mais avaliado.

@@ -4,7 +4,7 @@ import nbformat
 from nbconvert import MarkdownExporter
 
 jupyter_file_dir = os.path.join("filtragem-baseada-conteudo")
-jupyter_file_name = "simples-FBC"
+jupyter_file_name = "sklearn-FConteudo-TFIDF"
 jupyter_file_path = os.path.join(jupyter_file_dir, jupyter_file_name + ".ipynb")
 
 with open(jupyter_file_path, 'r') as f:

@@ -1,4 +1,4 @@
-## Implementação básica de Filtragem baseada em Conteúdo
+### Implementação básica de Filtragem baseada em Conteúdo
 
 Filtragem baseada em conteúdo é um processo pertencente a sistemas de recomendação, onde o objetivo geral é filtrar uma lista de itens a fim de sugerir aqueles que estimamos ser interessantes para usuários.
 
@@ -6,14 +6,14 @@ Dado informações de características de cada item de um catálogo, um item é 
 
 Abaixo, uma implementação básica e conceitual de um sistema de recomendação de filmes foi conduzida.
 
-### 1. Importação de Bibliotecas
+#### 1. Importação de Bibliotecas
 
 
 ```python
 import pandas as pd
 ```
 
-### 2. Dados de Itens e Usuários
+#### 2. Dados de Itens e Usuários
 
 Iremos criar duas `pandas DataFrames` para armazenar dados de itens (filmes) e usuários.
 
@@ -35,7 +35,7 @@ avaliacoes = pd.DataFrame({
 })
 ```
 
-### 3. Criando Perfis de Usuários
+#### 3. Criando Perfis de Usuários
 
 Vamos agora dispor dos dados de avaliações para modelar a preferências de cada usuário no que se diz sobre gêneros de filmes.
 
@@ -80,7 +80,7 @@ print(perfis)
     {0: 'Ficção Científica', 1: 'Fantasia', 2: 'Animação', 3: 'Animação', 4: 'Ficção Científica'}
 
 
-### 4. A Função Avaliar
+#### 4. A Função Avaliar
 
 De uma maneira simplista, uma função "avaliar" para este cenário poderia simplesmente prever a utilidade de um item (filme) para um usuário ao comparar o gênero daquele item com as preferências do usuário em questão.
 

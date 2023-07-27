@@ -330,7 +330,7 @@ for u in range(NUM_USUARIOS):
 
     recomendacoes.append((u, avaliacoes_ranqueadas))
 
-print("Recomendações rankeadas\n")
+print("Recomendações ranqueadas\n")
 for recomendacao in recomendacoes:
     print(f"Usuário {recomendacao[0]}: ", end='')
 
@@ -342,7 +342,7 @@ for recomendacao in recomendacoes:
 ```
 
     OUTPUT
-    Recomendações rankeadas
+    Recomendações ranqueadas
     
     Usuário 0: Item 2 Item 5 
     Usuário 1: Item 1 Item 4 
