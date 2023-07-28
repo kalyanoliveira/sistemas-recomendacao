@@ -22,21 +22,3 @@ for jupyter_file in os.listdir(jupyter_files_dir):
 
     with open(md_file_path, 'w') as f:
         f.write(markdown_output)
-
-    # with open(md_file_path, 'r') as f:
-    #     lines = f.readlines()
-
-    #     for index in range(len(lines) - 2):
-    #         content = lines[index] + lines[index + 1] + lines[index + 2]
-    #         p = r'```\n\n    +.'
-    #         if re.search(pattern=p, string=content):
-    #             lines[index + 1] = "\n    OUTPUT\n"
-
-    #     for index in range(len(lines) - 5):
-    #         content = lines[index] + lines[index + 1] + lines[index + 2] + lines[index + 3] + lines[index + 4] + lines[index + 5]
-    #         p = r'```\n\n\n\n\n    +.'
-    #         if re.search(pattern=p, string=content):
-    #             lines[index + 4] = "\n    OUTPUT\n"
-
-    # with open(md_file_path, "w") as f:
-    #     f.writelines(lines)
