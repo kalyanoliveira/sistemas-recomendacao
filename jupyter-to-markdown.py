@@ -18,7 +18,7 @@ for jupyter_file in os.listdir(jupyter_files_dir):
     markdown_exporter = MarkdownExporter()
     markdown_output, _ = markdown_exporter.from_notebook_node(notebook)
 
-    md_file_path = os.path.join(markdown_files_dir, + jupyter_file_name + ".md")
+    md_file_path = os.path.join(markdown_files_dir, jupyter_file_name + ".md")
 
     with open(md_file_path, 'w') as f:
         f.write(markdown_output)
